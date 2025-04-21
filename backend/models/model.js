@@ -35,15 +35,28 @@ class Hospital {
     }
 
     static async getPatientHistory(patientId) {
-        const pool = await poolPromise;
-        if (!pool) throw new Error('Database pool is not initialized');
-
-        const result = await pool.request()
+        try {
+          const pool = await poolPromise;
+          if (!pool) throw new Error('Database pool is not initialized');
+    
+          const result = await pool.request()
             .input('patient_id', sql.Int, patientId)
             .execute('GetPatientHistory');
-        return result.recordsets;
-    }
-
+    
+          // Check for error result
+          if (result.recordsets[0][0]?.result === 'error') {
+            throw new Error(result.recordsets[0][0].message);
+          }
+    
+          // Format response for PatientHistory.jsx
+          return {
+            patientInfo: result.recordsets[0] || [],
+            appointments: result.recordsets[1] || []
+          };
+        } catch (err) {
+          throw new Error(`Database error: ${err.message}`);
+        }
+      }
     // Room
     static async getAllRooms() {
         const pool = await poolPromise;
