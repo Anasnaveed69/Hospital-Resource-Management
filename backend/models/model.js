@@ -83,15 +83,27 @@ class Hospital {
         return result.recordset;
     }
 
-    static async assignBedToPatient(patientId) {
-        const pool = await poolPromise;
-        if (!pool) throw new Error('Database pool is not initialized');
-
-        const result = await pool.request()
-            .input('patient_id', sql.Int, patientId)
-            .execute('AssignBedToPatient');
-        return { message: `Bed assignment attempted for patient ${patientId}` };
-    }
+    static async assignBed(patientId, bedId) {
+        try {
+          const pool = await poolPromise;
+          if (!pool) throw new Error('Database pool is not initialized');
+    
+          console.log('Raw inputs to AssignBed:', { patientId, bedId });
+    
+          const request = pool.request();
+          request.input('PatientID', sql.Int, patientId);
+          request.input('BedID', sql.Int, bedId);
+    
+          const result = await request.execute('AssignBed');
+    
+          console.log('AssignBed result:', result);
+    
+          return { message: 'Bed assigned successfully' };
+        } catch (err) {
+          console.error('Database error in assignBed:', err.message);
+          throw new Error(`Failed to assign bed: ${err.message}`);
+        }
+      }
 
     // Medical Equipment
     static async getAllEquipment() {
@@ -261,19 +273,60 @@ class Hospital {
     }
 
     static async insertMedicineIfLowStock(medicationId, name, quantity, price, expiryDate) {
-        const pool = await poolPromise;
-        if (!pool) throw new Error('Database pool is not initialized');
-
-        const result = await pool.request()
-            .input('Medication_ID', sql.Int, medicationId)
-            .input('Name', sql.VarChar(255), name)
-            .input('Quantity', sql.Int, quantity)
-            .input('Price', sql.Decimal(8, 2), price)
-            .input('Expiry_Date', sql.Date, expiryDate)
-            .execute('InsertMedicineIfLowStock');
-        return { message: `Medicine ${name} stock update attempted` };
+        try {
+            const pool = await poolPromise;
+            if (!pool) throw new Error('Database pool is not initialized');
+    
+            // Log raw inputs
+            console.log('Raw inputs to insertMedicineIfLowStock:', {
+                medicationId,
+                name,
+                quantity,
+                price,
+                expiryDate,
+            });
+    
+            // Validate inputs
+            const medId = parseInt(medicationId, 10);
+            if (!medicationId || isNaN(medId) || medId <= 0) {
+                throw new Error('Medication ID is required and must be a positive integer');
+            }
+            if (!name || name.trim() === '') {
+                throw new Error('Name is required');
+            }
+            const qty = parseInt(quantity, 10);
+            if (!quantity || isNaN(qty) || qty < 0) {
+                throw new Error('Quantity must be a non-negative integer');
+            }
+            const prc = parseFloat(price);
+            if (!price || isNaN(prc) || prc <= 0) {
+                throw new Error('Price must be positive');
+            }
+            if (!expiryDate || isNaN(Date.parse(expiryDate))) {
+                throw new Error('Expiry Date is required and must be a valid date');
+            }
+    
+            const processedInputs = {
+                Medication_ID: medId,
+                Name: name.trim(),
+                Quantity: qty,
+                Price: prc,
+                Expiry_Date: expiryDate,
+            };
+            console.log('Executing InsertMedicineIfLowStock with:', processedInputs);
+    
+            const result = await pool.request()
+                .input('Medication_ID', sql.Int, medId)
+                .input('Name', sql.VarChar(255), name.trim())
+                .input('Quantity', sql.Int, qty)
+                .input('Price', sql.Decimal(8, 2), prc)
+                .input('Expiry_Date', sql.Date, new Date(expiryDate))
+                .execute('InsertMedicineIfLowStock');
+            return { message: `Medicine ${name.trim()} stock update attempted` };
+        } catch (err) {
+            throw new Error(`Database error: ${err.message}`);
+        }
     }
-
     static async checkLowStockMedicines() {
         const pool = await poolPromise;
         if (!pool) throw new Error('Database pool is not initialized');

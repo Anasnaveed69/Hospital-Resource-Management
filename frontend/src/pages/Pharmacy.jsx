@@ -11,7 +11,7 @@ function Pharmacy() {
     { key: 'Name', label: 'Name' },
     {key: 'Price', label: 'Price' },
     { key: 'Quantity', label: 'Quantity' },
-    { key: 'Expiry_Date', label: 'Expiry Date', format: (value) => new Date(value).toLocaleDateString() },
+    { key: 'Expiry_Date', label: 'Updation Date', format: (value) => new Date(value).toLocaleDateString() },
   ];
 
   return (

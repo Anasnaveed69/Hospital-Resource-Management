@@ -123,7 +123,7 @@ function PharmacyForm() {
       
       <TextField
         fullWidth
-        label="Expiry Date"
+        label=" Updation Date"
         name="expiry_Date"
         type="date"
         margin="normal"

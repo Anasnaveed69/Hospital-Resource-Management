@@ -6,9 +6,10 @@ import { getStaff } from '../api';
 
 function Staff() {
   const columns = [
-    { key: 'StaffID', label: 'Staff ID' },
+    { key: 'Staff_Id', label: 'Staff ID' },
     { key: 'Name', label: 'Name' },
     { key: 'Role', label: 'Role' },
+    { key: 'Availability', label: 'Availability' },
   ];
 
   return (

@@ -3,12 +3,12 @@ import { Typography } from '@mui/material';
 import GenericTable from '../components/GenericTable';
 import { getBeds } from '../api';
 
-
 function Beds() {
   const columns = [
     { key: 'BedID', label: 'Bed ID' },
-    { key: 'RoomID', label: 'Room ID' },
-    { key: 'isOccupied', label: 'Occupied', format: (value) => value ? 'Yes' : 'No' },
+    { key: 'status', label: 'Status' },
+    { key: 'Type', label: 'Type' },
+    { key: 'Assigned_To', label: 'Assigned To', format: (value) => value || 'None' },
   ];
 
   return (

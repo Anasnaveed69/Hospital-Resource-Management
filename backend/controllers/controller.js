@@ -75,13 +75,24 @@ class HospitalController {
 
     static async assignBed(req, res) {
         try {
-            const { patientId } = req.body;
-            const result = await Hospital.assignBedToPatient(patientId);
-            res.status(200).json(result);
+          const { patientId, bedId } = req.body;
+          console.log('Assign bed request:', req.body);
+    
+          if (!patientId || isNaN(patientId) || patientId <= 0) {
+            return res.status(400).json({ error: 'PatientID is required and must be a positive integer' });
+          }
+          if (!bedId || isNaN(bedId) || bedId <= 0) {
+            return res.status(400).json({ error: 'BedID is required and must be a positive integer' });
+          }
+    
+          const result = await Hospital.assignBed(patientId, bedId);
+          res.status(200).json({ message: 'Bed assigned successfully' });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+          console.error('Error in assignBed:', error.message);
+          res.status(500).json({ error: error.message });
         }
-    }
+      }
+    
 
     // Medical Equipment
     static async getAllEquipment(req, res) {
@@ -111,6 +122,7 @@ class HospitalController {
             res.status(500).json({ error: error.message });
         }
     }
+    
 
     static async trackStaffAvailability(req, res) {
         try {
@@ -258,14 +270,46 @@ class HospitalController {
 
     static async insertMedicineIfLowStock(req, res) {
         try {
-            const { medicationId, name, quantity, price, expiryDate } = req.body;
-            const result = await Hospital.insertMedicineIfLowStock(medicationId, name, quantity, price, expiryDate);
+            const { medication_ID, name, quantity, price, expiry_Date } = req.body;
+            console.log('Insert medicine request:', req.body); // Debug log
+    
+            // Validate inputs
+            const medId = parseInt(medication_ID, 10);
+            if (!medication_ID || isNaN(medId) || medId <= 0) {
+                return res.status(400).json({ error: 'Medication ID is required and must be a positive integer' });
+            }
+            if (!name || name.trim() === '') {
+                return res.status(400).json({ error: 'Name is required' });
+            }
+            const qty = parseInt(quantity, 10);
+            if (!quantity || isNaN(qty) || qty < 0) {
+                return res.status(400).json({ error: 'Quantity must be a non-negative integer' });
+            }
+            const prc = parseFloat(price);
+            if (!price || isNaN(prc) || prc <= 0) {
+                return res.status(400).json({ error: 'Price must be positive' });
+            }
+            if (!expiry_Date || isNaN(Date.parse(expiry_Date))) {
+                return res.status(400).json({ error: 'Expiry Date is required and must be a valid date' });
+            }
+    
+            const processedInputs = {
+                medication_ID: medId,
+                name: name.trim(),
+                quantity: qty,
+                price: prc,
+                expiry_Date,
+            };
+            console.log('Calling Hospital.insertMedicineIfLowStock with:', processedInputs); // Debug log
+    
+            const result = await Hospital.insertMedicineIfLowStock(medId, name.trim(), qty, prc, expiry_Date);
             res.status(200).json(result);
         } catch (error) {
+            console.error('Error in insertMedicineIfLowStock:', error.message); // Debug log
             res.status(500).json({ error: error.message });
         }
     }
-
+    
     static async checkLowStockMedicines(req, res) {
         try {
             const lowStock = await Hospital.checkLowStockMedicines();

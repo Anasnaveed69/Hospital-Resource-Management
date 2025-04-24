@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Box, Alert, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { getBeds, assignBed } from '../api';
 
@@ -10,31 +8,48 @@ function BedAssignment() {
   const [beds, setBeds] = useState([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     const fetchBeds = async () => {
       try {
         const response = await getBeds();
-        setBeds(response.data.filter(bed => !bed.isOccupied));
+        console.log('Fetched beds:', response.data);
+        setBeds(response.data.filter(bed => bed.status === 'Available'));
         setError('');
       } catch (err) {
         setError('Failed to fetch beds');
+        console.error('Error fetching beds:', err);
       }
     };
     fetchBeds();
-  }, []);
+  }, [refresh]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!patientId || isNaN(patientId) || Number(patientId) <= 0) {
+      setError('Please enter a valid Patient ID');
+      return;
+    }
+    if (!bedId) {
+      setError('Please select a bed');
+      return;
+    }
+
+    const payload = { patientId: Number(patientId), bedId: Number(bedId) };
+    console.log('Assign bed payload:', payload);
+
     try {
-      const response = await assignBed({ patientId: Number(patientId), bedId });
+      const response = await assignBed(payload);
       setSuccess(response.data.message || 'Bed assigned successfully');
       setError('');
       setPatientId('');
       setBedId('');
+      setRefresh(!refresh);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to assign bed');
       setSuccess('');
+      console.error('Error assigning bed:', err);
     }
   };
 
@@ -61,7 +76,7 @@ function BedAssignment() {
           <MenuItem value="">Select Bed</MenuItem>
           {beds.map((bed) => (
             <MenuItem key={bed.BedID} value={bed.BedID}>
-              Bed {bed.BedID} (Room {bed.RoomID})
+              Bed {bed.BedID} ({bed.Type})
             </MenuItem>
           ))}
         </Select>

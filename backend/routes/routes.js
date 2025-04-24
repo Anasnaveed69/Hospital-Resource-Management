@@ -76,6 +76,7 @@ router.post('/process-salaries', HospitalController.processSalaries);
 router.get('/staff-salary-report', HospitalController.getStaffSalaryReport);
 router.get('/top-paid-staff', HospitalController.getTopPaidStaff);
 
+
 // Payroll
 router.get('/payroll', HospitalController.getAllPayroll);
 router.get('/total-salaries-paid', HospitalController.totalSalariesPaid);
