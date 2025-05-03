@@ -164,14 +164,19 @@ class HospitalController {
 
     static async assignDoctorToPatient(req, res) {
         try {
-            const { patientId, doctorId, appointmentDate } = req.body;
-            const result = await Hospital.assignDoctorToPatient(patientId, doctorId, appointmentDate);
-            res.status(200).json(result);
+          const { patientId, doctorId, startTime, endTime } = req.body;
+      
+          if (!startTime || !endTime) {
+            return res.status(400).json({ error: 'Start time and end time are required.' });
+          }
+      
+          const result = await Hospital.assignDoctorToPatient(patientId, doctorId, startTime, endTime);
+          res.status(200).json(result);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+          res.status(500).json({ error: error.message });
         }
-    }
-
+      }
+      
     static async viewPatientAssignments(req, res) {
         try {
             const assignments = await Hospital.viewPatientAssignments();

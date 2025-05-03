@@ -168,17 +168,20 @@ class Hospital {
         return { message: 'Appointment scheduled' };
     }
 
-    static async assignDoctorToPatient(patientId, doctorId, appointmentDate) {
+    static async assignDoctorToPatient(patientId, doctorId, startTime, endTime) {
         const pool = await poolPromise;
         if (!pool) throw new Error('Database pool is not initialized');
-
+    
         const result = await pool.request()
             .input('PatientID', sql.Int, patientId)
-            .input('DoctorID', sql.Int, doctorId)
-            .input('AppointmentDate', sql.DateTime, appointmentDate)
+            .input('StaffID', sql.Int, doctorId) // Assuming StaffID in DB corresponds to doctorId
+            .input('StartTime', sql.DateTime, startTime)
+            .input('EndTime', sql.DateTime, endTime)
             .execute('AssignDoctorToPatient');
+    
         return { message: `Doctor assigned to patient ${patientId}` };
     }
+    
 
     static async viewPatientAssignments() {
         const pool = await poolPromise;
