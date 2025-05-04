@@ -1,13 +1,46 @@
-import React from 'react';
-import { useState } from 'react';
-import { TextField, Button, Box, Alert } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import {
+  TextField,
+  Button,
+  Box,
+  Alert,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select
+} from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { assignDoctor } from '../api';
+import { getStaff, assignDoctor } from '../api';
 
 function AssignDoctorForm() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [doctors, setDoctors] = useState([]);
+
+  useEffect(() => {
+    const fetchStaff = async () => {
+      try {
+        const response = await getStaff();
+        const doctorRoles = [
+          'Surgeon',
+          'Physician',
+          'Cardiologist',
+          'Pediatrician',
+          'Radiologist',
+          'Anesthesiologist',
+          'Radiology Technician'
+        ];
+        const doctorList = response.data.filter(
+          staff => doctorRoles.includes(staff.Role) && staff.Availability === 'Available'
+        );
+        setDoctors(doctorList);
+      } catch (err) {
+        console.error('Error fetching staff:', err);
+      }
+    };
+    fetchStaff();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -22,9 +55,7 @@ function AssignDoctorForm() {
         .positive('Must be a positive number')
         .integer('Must be an integer'),
       staffId: Yup.number()
-        .required('Staff ID is required')
-        .positive('Must be a positive number')
-        .integer('Must be an integer'),
+        .required('Doctor selection is required'),
       startTime: Yup.date()
         .required('Start time is required')
         .min(new Date(), 'Start time must be in the future'),
@@ -33,11 +64,12 @@ function AssignDoctorForm() {
         .min(Yup.ref('startTime'), 'End time must be after start time'),
     }),
     onSubmit: async (values, { resetForm }) => {
+
       try {
-       
+
         const payload = {
           patientId: Number(values.patientId),
-          doctorId: Number(values.staffId),  // ✅ Correct key name
+          doctorId: Number(values.staffId),
           startTime: values.startTime,
           endTime: values.endTime,
         };
@@ -70,16 +102,26 @@ function AssignDoctorForm() {
         helperText={formik.touched.patientId && formik.errors.patientId}
       />
 
-      <TextField
-        fullWidth
-        label="Staff ID (Doctor)"
-        name="staffId"
-        type="number"
-        margin="normal"
-        {...formik.getFieldProps('staffId')}
-        error={formik.touched.staffId && Boolean(formik.errors.staffId)}
-        helperText={formik.touched.staffId && formik.errors.staffId}
-      />
+      <FormControl fullWidth margin="normal" error={formik.touched.staffId && Boolean(formik.errors.staffId)}>
+        <InputLabel>Doctor</InputLabel>
+        <Select
+          name="staffId"
+          value={formik.values.staffId}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          label="Doctor"
+        >
+          <MenuItem value="">Select Doctor</MenuItem>
+          {doctors.map((doc) => (
+            <MenuItem key={doc.Staff_Id} value={doc.Staff_Id}>
+             Doctor {doc.Name} ({doc.Role})    
+            </MenuItem>
+          ))}
+        </Select>
+        {formik.touched.staffId && formik.errors.staffId && (
+          <div style={{ color: 'red', fontSize: '0.8em' }}>{formik.errors.staffId}</div>
+        )}
+      </FormControl>
 
       <TextField
         fullWidth
