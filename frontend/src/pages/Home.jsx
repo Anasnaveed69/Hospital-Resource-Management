@@ -3,13 +3,12 @@ import {
   Box,
   Typography,
   Paper,
-  Container,
   Button,
-  useTheme,
   IconButton,
   Link as MuiLink,
   Fade,
-  Zoom,
+  Slide,
+  Container,
 } from '@mui/material';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import PeopleIcon from '@mui/icons-material/People';
@@ -28,36 +27,36 @@ const features = [
   {
     title: 'Patient Management',
     description: 'Monitor and manage patient records, appointments, and treatments efficiently.',
-    icon: <PeopleIcon fontSize="large" sx={{ color: '#1976D2' }} />,
+    icon: <PeopleIcon fontSize="large" sx={{ color: '#00B8D9' }} />,
   },
   {
     title: 'Staff Management',
     description: 'Efficiently manage hospital staff schedules, roles, and payroll operations.',
-    icon: <LocalHospitalIcon fontSize="large" sx={{ color: '#43a047' }} />,
+    icon: <LocalHospitalIcon fontSize="large" sx={{ color: '#36B37E' }} />,
   },
   {
     title: 'Billing & Payments',
     description: 'Streamline billing, insurance claims, and patient payments.',
-    icon: <ReceiptIcon fontSize="large" sx={{ color: '#1976D2' }} />,
+    icon: <ReceiptIcon fontSize="large" sx={{ color: '#0052CC' }} />,
   },
   {
     title: 'Pharmacy Management',
     description: 'Track medications, inventory, and prescriptions effectively.',
-    icon: <LocalPharmacyIcon fontSize="large" sx={{ color: '#43a047' }} />,
+    icon: <LocalPharmacyIcon fontSize="large" sx={{ color: '#36B37E' }} />,
   },
   {
     title: 'Equipment Management',
     description: 'Oversee medical equipment inventory, maintenance schedules, and allocation across departments.',
-    icon: <MedicalServicesIcon fontSize="large" sx={{ color: '#1976D2' }} />,
+    icon: <MedicalServicesIcon fontSize="large" sx={{ color: '#00B8D9' }} />,
   },
 ];
 
 const sliderSettings = {
   dots: true,
   infinite: true,
-  speed: 600,
+  speed: 700,
   autoplay: true,
-  autoplaySpeed: 6000,
+  autoplaySpeed: 6500,
   slidesToShow: 2,
   slidesToScroll: 1,
   pauseOnHover: true,
@@ -72,51 +71,83 @@ const sliderSettings = {
 };
 
 export default function Home() {
-  const theme = useTheme();
-
   return (
-    <Box sx={{ fontFamily: "'Inter', 'Roboto', sans-serif", minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{
+      fontFamily: "'Inter', 'Roboto', sans-serif",
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      background: '#F4F7FA',
+    }}>
       {/* Hero Section */}
+
+
       <Box
         sx={{
-          position: 'relative',
-          flexGrow: 1,
-          minHeight: { xs: 400, md: 600, lg: 720 },
-          py: { xs: 10, md: 18, lg: 20 },
-          backgroundImage: `linear-gradient(rgba(25, 118, 210, 0.65), rgba(67, 160, 71, 0.3)), url(${posterImg})`,
+        
+        flexGrow: 1,
+          minHeight: { xs: '65vh', md: '85vh' },
+       backgroundImage: `linear-gradient(120deg, rgba(0, 82, 204, 0.63) 60%, rgba(0, 217, 76, 0.7) 100%), url(${posterImg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           color: '#fff',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           textAlign: 'center',
-          px: 2,
+          px: { xs: 2, md: 0 },
+          boxShadow: '0 10px 40px 0 rgba(0,82,204,0.10)',
+          position: 'relative',
         }}
       >
-        <Container maxWidth="md" sx={{ position: 'relative', zIndex: 2 }}>
-          <Zoom in timeout={1000}>
+        <Box
+          sx={{
+            width: { xs: '100%', md: '70%', lg: '60%' },
+            mx: 'auto',
+            py: { xs: 8, md: 0 },
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 2,
+          }}
+        >
+          <Slide direction="down" in timeout={1000}>
             <Typography
               variant="h2"
               sx={{
                 fontWeight: 900,
                 letterSpacing: 2,
                 mb: 3,
-                textShadow: '0 4px 20px rgba(0,0,0,0.4)',
+                fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
+                textShadow: '0 6px 28px rgba(0,82,204,0.22)',
+                background: 'linear-gradient(90deg, #fff 30%,rgb(206, 206, 206) 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                color: 'transparent',
+                WebkitTextFillColor: 'transparent',
+                animation: 'float 4s ease-in-out infinite',
+                '@keyframes float': {
+                  '0%,100%': { transform: 'translateY(0)' },
+                  '50%': { transform: 'translateY(-12px)' },
+                },
               }}
             >
               Welcome to MediCare
             </Typography>
-          </Zoom>
+          </Slide>
           <Fade in timeout={1500}>
             <Typography
               variant="h5"
               sx={{
                 fontWeight: 400,
                 mb: 5,
-                textShadow: '0 2px 12px rgba(0,0,0,0.3)',
+                fontSize: { xs: '1.1rem', sm: '1.25rem', md: '1.5rem' },
+                textShadow: '0 2px 12px rgba(0,82,204,0.11)',
                 lineHeight: 1.5,
+                color: '#E1F5FE',
               }}
             >
               A Smart Hospital Resource Management System that enhances patient care and administrative efficiency.
@@ -125,33 +156,35 @@ export default function Home() {
           <Fade in timeout={2000}>
             <Button
               variant="contained"
-              color="success"
               size="large"
               sx={{
                 fontWeight: 700,
                 borderRadius: 8,
                 px: 5,
                 py: 1.8,
-                boxShadow: '0 4px 16px rgba(67,160,71,0.3)',
                 fontSize: '1.2rem',
                 textTransform: 'none',
-                '&:hover': {
-                  boxShadow: '0 6px 20px rgba(67,160,71,0.45)',
-                  transform: 'scale(1.04)',
-                },
+                background: 'linear-gradient(90deg, #00B8D9 0%, #36B37E 100%)',
+                color: '#fff',
+                boxShadow: '0 6px 24px 0 rgba(0,184,217,0.17)',
                 transition: 'all 0.25s cubic-bezier(.25,.8,.25,1)',
+                '&:hover': {
+                  background: 'linear-gradient(90deg, #36B37E 0%, #00B8D9 100%)',
+                  boxShadow: '0 8px 32px 0 rgba(0,184,217,0.25)',
+                  transform: 'scale(1.06)',
+                },
               }}
             >
               Get Started
             </Button>
           </Fade>
-        </Container>
+        </Box>
       </Box>
 
       {/* Features Section */}
       <Box
         sx={{
-          backgroundColor: theme.palette.primary.light,
+          background: 'linear-gradient(180deg, #F4F7FA 70%, #E1F5FE 100%)',
           py: { xs: 6, md: 10 },
           px: 2,
         }}
@@ -162,10 +195,10 @@ export default function Home() {
             align="center"
             sx={{
               fontWeight: 900,
-              color: '#fff',
+              color: '#0052CC',
               mb: 4,
               letterSpacing: 1,
-              textShadow: '0 3px 20px rgba(25,118,210,0.3)',
+              textShadow: '0 3px 20px rgba(0,82,204,0.10)',
             }}
           >
             Key Features
@@ -173,25 +206,27 @@ export default function Home() {
           <Slider {...sliderSettings}>
             {features.map((feature, index) => (
               <Box key={index} px={2}>
-                <Fade in timeout={900 + index * 150}>
+                <Slide direction="up" in timeout={900 + index * 200}>
                   <Paper
-                    elevation={6}
+                    elevation={8}
                     sx={{
                       p: { xs: 4, md: 5 },
                       minHeight: 320,
                       borderRadius: '24px',
                       textAlign: 'center',
-                      backgroundColor: '#f9fafb',
-                      border: '1px solid #e0e0e0',
+                      backgroundColor: '#fff',
+                      border: '1px solid #E1F5FE',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
                       justifyContent: 'center',
                       cursor: 'default',
                       transition: 'all 0.35s cubic-bezier(.25,.8,.25,1)',
+                      boxShadow: '0 8px 32px rgba(0,82,204,0.07)',
                       '&:hover': {
-                        boxShadow: '0 12px 40px rgba(25,118,210,0.15)',
+                        boxShadow: '0 16px 48px rgba(0,184,217,0.13), 0 0 0 4px #00B8D922',
                         transform: 'translateY(-10px) scale(1.05)',
+                        borderColor: '#00B8D9',
                       },
                     }}
                   >
@@ -201,17 +236,17 @@ export default function Home() {
                       sx={{
                         fontWeight: 800,
                         mb: 2,
-                        color: '#1976D2',
+                        color: '#0052CC',
                         letterSpacing: 0.3,
                       }}
                     >
                       {feature.title}
                     </Typography>
-                    <Typography variant="body1" sx={{ color: '#263238', fontSize: '1.1rem' }}>
+                    <Typography variant="body1" sx={{ color: '#222B45', fontSize: '1.1rem' }}>
                       {feature.description}
                     </Typography>
                   </Paper>
-                </Fade>
+                </Slide>
               </Box>
             ))}
           </Slider>
@@ -223,7 +258,7 @@ export default function Home() {
         component="footer"
         sx={{
           width: '100vw',
-          background: 'linear-gradient(90deg, #1976D2 70%, #43a047 100%)',
+          background: 'linear-gradient(90deg, #0052CC 70%, #00B8D9 100%)',
           py: 4,
           mt: 'auto',
           position: 'relative',
@@ -233,7 +268,7 @@ export default function Home() {
           marginRight: '-50vw',
           color: '#e3f2fd',
           fontWeight: 400,
-          fontSize: '0.9rem',
+          fontSize: '0.95rem',
           textAlign: 'center',
         }}
       >
@@ -245,10 +280,11 @@ export default function Home() {
             alignItems: 'center',
             justifyContent: 'space-between',
             gap: 2,
+            height:12
           }}
         >
           <Typography>
-            © {new Date().getFullYear()} MediCare Hospital Resource Management | All Rights Reserved
+            © {new Date().getFullYear()} MediCare | All Rights Reserved
           </Typography>
           <Box>
             <IconButton
@@ -257,7 +293,7 @@ export default function Home() {
               href="https://facebook.com"
               target="_blank"
               rel="noopener"
-              sx={{ color: '#e3f2fd', '&:hover': { color: '#1976D2' } }}
+              sx={{ color: '#e3f2fd', '&:hover': { color: '#00B8D9' }, transition: 'color 0.2s' }}
             >
               <FacebookIcon />
             </IconButton>
@@ -267,7 +303,7 @@ export default function Home() {
               href="https://twitter.com"
               target="_blank"
               rel="noopener"
-              sx={{ color: '#e3f2fd', '&:hover': { color: '#1976D2' } }}
+              sx={{ color: '#e3f2fd', '&:hover': { color: '#00B8D9' }, transition: 'color 0.2s' }}
             >
               <TwitterIcon />
             </IconButton>
@@ -277,7 +313,7 @@ export default function Home() {
               href="https://linkedin.com"
               target="_blank"
               rel="noopener"
-              sx={{ color: '#e3f2fd', '&:hover': { color: '#1976D2' } }}
+              sx={{ color: '#e3f2fd', '&:hover': { color: '#00B8D9' }, transition: 'color 0.2s' }}
             >
               <LinkedInIcon />
             </IconButton>

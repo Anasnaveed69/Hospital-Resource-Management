@@ -122,7 +122,7 @@ function AssignDoctorForm() {
             letterSpacing: 1,
           }}
         >
-          Assign Doctor to Patient
+         Appointment Booking
         </Typography>
         <Typography
           variant="subtitle1"
