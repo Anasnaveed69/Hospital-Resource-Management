@@ -16,10 +16,10 @@ function Pharmacy() {
 
   return (
     <div>
-      <Typography variant="h5" sx={{ mb: 2 }}>Pharmacy Inventory</Typography>
+      <Typography variant="h5" sx={{ mb: 2,fontWeight: 'bold' }}>Pharmacy Inventory</Typography>
       <PharmacyForm />
-      <Typography variant="h6" sx={{ mt: 4, mb: 2 }}>Medicines</Typography>
-      <GenericTable fetchData={getPharmacy} columns={columns} title="Pharmacy" />
+
+      <GenericTable fetchData={getPharmacy} columns={columns} title="Medicines" />
     </div>
   );
 }

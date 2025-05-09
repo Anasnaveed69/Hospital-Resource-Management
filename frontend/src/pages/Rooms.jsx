@@ -14,7 +14,7 @@ function Rooms() {
 
   return (
     <div>
-      <Typography variant="h5" sx={{ mb: 2 }}>Rooms</Typography>
+     
       <GenericTable fetchData={getRooms} columns={columns} title="Rooms" />
     </div>
   );

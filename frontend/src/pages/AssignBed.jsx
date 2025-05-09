@@ -7,7 +7,7 @@ import BedAssignment from '../components/BedAssignment';
 function AssignBed() {
   return (
     <div>
-      <Typography variant="h5" sx={{ mb: 2 }}>Assign Bed</Typography>
+      <Typography variant="h5" sx={{ mb: 2 ,fontWeight: 'bold'}}>Assign Bed</Typography>
       <BedAssignment />
     </div>
   );

@@ -13,7 +13,7 @@ function Beds() {
 
   return (
     <div>
-      <Typography variant="h5" sx={{ mb: 2 }}>Beds</Typography>
+
       <GenericTable fetchData={getBeds} columns={columns} title="Beds" />
     </div>
   );

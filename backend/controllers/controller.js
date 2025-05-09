@@ -13,8 +13,8 @@ class HospitalController {
 
     static async registerPatient(req, res) {
         try {
-            const { patientId, name, admissionDate, diagnosis } = req.body;
-            const result = await Hospital.registerPatient(patientId, name, admissionDate, diagnosis);
+            const { patientId, name, admissionDate, dischargeDate, diagnosis } = req.body;
+            const result = await Hospital.registerPatient(patientId, name, admissionDate, dischargeDate, diagnosis);
             res.status(201).json(result);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -113,6 +113,45 @@ class HospitalController {
         }
     }
 
+
+    static async addEquipment(req, res) {
+        try {
+            const { equipmentId, name, location, availability } = req.body;
+
+         
+            if (!equipmentId || !name || !location || !availability) {
+                return res.status(400).json({ error: 'All fields are required: equipmentId, name, location, availability' });
+            }
+
+            const result = await Hospital.addEquipment(equipmentId, name, location, availability);
+            res.status(201).json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+
+    static async addStaffWithSalary(req, res) {
+        try {
+            const { staffId, name, role, availability } = req.body;
+
+            // Validate required fields
+            if (!staffId || !name || !role) {
+                return res.status(400).json({ error: 'staffId, name, and role are required' });
+            }
+
+            const result = await Hospital.addStaffWithSalary(
+                staffId,
+                name,
+                role,
+                availability,
+               
+            );
+            res.status(201).json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
     // Staff
     static async getAllStaff(req, res) {
         try {
@@ -221,6 +260,31 @@ class HospitalController {
             const { billId, patientId, totalAmount, paidAmount } = req.body;
             const result = await Hospital.generateBill(billId, patientId, totalAmount, paidAmount);
             res.status(201).json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    static async addAlertReport(req, res) {
+        try {
+            const { type, description, timestamp } = req.body;
+
+            // Validate required fields
+            if (!type || !description) {
+                return res.status(400).json({ error: 'type and description are required' });
+            }
+
+            const result = await Hospital.addAlertReport(type, description, timestamp);
+            res.status(201).json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    static async getAlerts(req, res) {
+        try {
+            const alerts = await Hospital.getAlerts();
+            res.status(200).json(alerts);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -415,12 +479,14 @@ class HospitalController {
 
     static async processSalaries(req, res) {
         try {
-            const result = await Hospital.processSalaries();
+            const { salaryId } = req.body;
+            const result = await Hospital.processSalaries(salaryId);
             res.status(200).json(result);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     }
+    
 
     static async getStaffSalaryReport(req, res) {
         try {

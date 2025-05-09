@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Typography } from '@mui/material';
 import GenericTable from '../components/GenericTable';
+
 import { getStaffSalaryReport } from '../api';
 
 function StaffSalaryReport() {

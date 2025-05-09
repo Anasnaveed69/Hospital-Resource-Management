@@ -10,17 +10,18 @@ class Hospital {
         return result.recordset;
     }
 
-    static async registerPatient(patientId, name, admissionDate, diagnosis) {
+    static async registerPatient(patientId, name, admissionDate, dischargeDate, diagnosis) {
         const pool = await poolPromise;
         if (!pool) throw new Error('Database pool is not initialized');
-
+    
         const result = await pool.request()
             .input('PatientID', sql.Int, patientId)
             .input('Name', sql.VarChar(255), name)
             .input('AdmissionDate', sql.Date, admissionDate)
+            .input('DischargeDate', sql.Date, dischargeDate || null)
             .input('Diagnosis', sql.VarChar(255), diagnosis)
             .execute('RegisterPatient');
-        return { message: `Patient ${patientId} registration attempted` };
+        return { message: `Patient ${patientId} registered successfully` };
     }
 
     static async dischargePatient(patientId, dischargeDate) {
@@ -122,6 +123,20 @@ class Hospital {
         return result.recordset;
     }
 
+    static async addEquipment(equipmentId, name, location, availability) {
+        const pool = await poolPromise;
+        if (!pool) throw new Error('Database pool is not initialized');
+
+        const result = await pool.request()
+            .input('EquipmentID', sql.Int, equipmentId)
+            .input('Name', sql.VarChar(255), name)
+            .input('Location', sql.VarChar(255), location)
+            .input('Availability', sql.VarChar(255), availability)
+            .execute('AddEquipment');
+
+        return { message: `Equipment ${name} added successfully` };
+    }
+
     // Staff
     static async getAllStaff() {
         const pool = await poolPromise;
@@ -137,6 +152,25 @@ class Hospital {
 
         const result = await pool.request().execute('TrackStaffAvailability');
         return result.recordset;
+    }
+
+    static async addStaffWithSalary(staffId, name, role, availability, baseSalary, allowances, deductions) {
+        const pool = await poolPromise;
+        if (!pool) throw new Error('Database pool is not initialized');
+
+        const result = await pool.request()
+            .input('Staff_Id', sql.Int, staffId)
+            .input('Name', sql.VarChar(255), name)
+            .input('Role', sql.VarChar(255), role)
+            .input('Availability', sql.VarChar(255), availability || 'Available')
+            
+            .execute('AddStaffMember');
+
+        return {
+            message: result.recordset[0]?.Message || `Staff ${name} added successfully`,
+            staff: result.recordsets[1]?.[0],
+            salaryStructure: result.recordsets[2]?.[0]
+        };
     }
 
     static async staffPerformanceReport() {
@@ -209,6 +243,21 @@ class Hospital {
         return result.recordset;
     }
 
+    static async addAlertReport(type, description, timestamp) {
+        const pool = await poolPromise;
+        if (!pool) throw new Error('Database pool is not initialized');
+
+        const result = await pool.request()
+            .input('Type', sql.VarChar(255), type)
+            .input('Description', sql.Text, description)
+            .input('Timestamp', sql.DateTime, timestamp || null)
+            .execute('AddAlertReport');
+
+        return {
+            message: result.recordset[0]?.Result || 'Alert report added successfully',
+            alert: result.recordsets[0]?.[0]
+        };
+    }
     // Billing
     static async getAllBills() {
         const pool = await poolPromise;
@@ -420,14 +469,16 @@ class Hospital {
         const result = await pool.request().query('SELECT * FROM StaffSalaries');
         return result.recordset;
     }
-
-    static async processSalaries() {
+    static async processSalaries(salaryId) {
         const pool = await poolPromise;
         if (!pool) throw new Error('Database pool is not initialized');
-
-        const result = await pool.request().execute('ProcessSalaries');
-        return { message: 'Salaries processed' };
+    
+        const result = await pool.request()
+            .input('SalaryID', sql.Int, salaryId)
+            .execute('ProcessSalaries');
+        return { message: `Salary processed for SalaryID ${salaryId}` };
     }
+    
 
     static async getStaffSalaryReport() {
         const pool = await poolPromise;

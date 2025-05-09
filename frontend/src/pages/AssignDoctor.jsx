@@ -5,7 +5,7 @@ import AssignDoctorForm from '../components/AssignDoctorForm';
 function AssignDoctor() {
   return (
     <div>
-      <Typography variant="h5" sx={{ mb: 2 }}>Assign Doctor</Typography>
+      <Typography variant="h5" sx={{ mb: 2,fontWeight: 'bold' }}>Assign Doctor</Typography>
       <AssignDoctorForm />
     </div>
   );

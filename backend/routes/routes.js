@@ -19,12 +19,13 @@ router.post('/assign-bed', HospitalController.assignBed);
 // Medical Equipment
 router.get('/equipment', HospitalController.getAllEquipment);
 router.get('/track-equipment', HospitalController.trackMedicalEquipment);
+router.post('/add-equipment', HospitalController.addEquipment);
 
 // Staff
 router.get('/staff', HospitalController.getAllStaff);
 router.get('/staff-availability', HospitalController.trackStaffAvailability);
 router.get('/staff-performance', HospitalController.staffPerformanceReport);
-
+router.post('/add-staff', HospitalController.addStaffWithSalary);
 // Appointments
 router.get('/appointments', HospitalController.getAllAppointments);
 router.post('/schedule-appointment', HospitalController.scheduleAppointment);
@@ -36,6 +37,7 @@ router.get('/schedules', HospitalController.getAllSchedules);
 
 // AlertsReports
 router.get('/alerts', HospitalController.getAllAlerts);
+router.post('/add-alerts', HospitalController.addAlertReport);
 
 // Billing
 router.get('/bills', HospitalController.getAllBills);
@@ -73,12 +75,13 @@ router.get('/salary-structures', HospitalController.getAllSalaryStructures);
 // StaffSalaries
 router.get('/staff-salaries', HospitalController.getAllStaffSalaries);
 router.post('/process-salaries', HospitalController.processSalaries);
-router.get('/staff-salary-report', HospitalController.getStaffSalaryReport);
-router.get('/top-paid-staff', HospitalController.getTopPaidStaff);
+router.get('/staff-salary-report', HospitalController.getStaffSalaryReport);//
+router.get('/top-paid-staff', HospitalController.getTopPaidStaff);//
 
 
 // Payroll
-router.get('/payroll', HospitalController.getAllPayroll);
-router.get('/total-salaries-paid', HospitalController.totalSalariesPaid);
+router.get('/payroll', HospitalController.getAllPayroll);//
+
+router.get('/total-salaries-paid', HospitalController.totalSalariesPaid);//
 
 module.exports = router;
