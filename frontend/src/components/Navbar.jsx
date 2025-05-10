@@ -14,14 +14,15 @@ import {
   Slide,
   Divider,
   Fade,
+  Button,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/Medica Centre.png';
 
 const navItems = [
-  { label: 'Home', to: '/' },
+  { label: 'Home', to: '/home' }, // Use /home for consistency
   { label: 'Register Patient', to: '/register-patient' },
   { label: 'Patients', to: '/patients' },
   { label: 'Patient History', to: '/patient-history' },
@@ -38,17 +39,30 @@ const navItems = [
   { label: 'Ambulance Services', to: '/ambulance-services' },
   { label: 'Security Incidents', to: '/security-incidents' },
   { label: 'Alert Report', to: '/alerts' },
-  { label: 'Patient Feedback', to: '/feedback' },
+  // { label: 'Patient Feedback', to: '/feedback' },
 ];
 
-const APPBAR_HEIGHT = 72; // Adjust if your AppBar height differs
+const APPBAR_HEIGHT = 72;
 
 function Navbar() {
   const theme = useTheme();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // Hide Navbar if not authenticated or on login page
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  if (!isAuthenticated || location.pathname === '/login') {
+    return null;
+  }
 
   const handleDrawerToggle = () => setDrawerOpen((prev) => !prev);
+
+  // Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    navigate('/login', { replace: true });
+  };
 
   return (
     <>
@@ -65,7 +79,7 @@ function Navbar() {
           {/* Logo and brand */}
           <Box
             component={Link}
-            to="/"
+            to="/home"
             sx={{
               display: 'flex',
               alignItems: 'center',
@@ -88,7 +102,7 @@ function Navbar() {
               {/* Optional: Add brand name here */}
             </Typography>
           </Box>
-          {/* Hamburger menu icon */}
+          {/* Hamburger menu icon (always visible) */}
           <IconButton
             edge="end"
             color="inherit"
@@ -97,6 +111,7 @@ function Navbar() {
             sx={{
               transition: 'transform 0.2s cubic-bezier(.4,2,.6,1)',
               transform: drawerOpen ? 'rotate(90deg)' : 'rotate(0deg)',
+              ml: 1,
             }}
           >
             {drawerOpen ? <CloseIcon sx={{ fontSize: 32 }} /> : <MenuIcon sx={{ fontSize: 32 }} />}
@@ -149,7 +164,6 @@ function Navbar() {
             >
               <img src={logo} alt="MediCare Logo" style={{ height: 90, marginLeft: 60, marginTop: 3 }} />
               <Typography variant="h6" sx={{ fontWeight: 700, color: '#fff', ml: 1 }}>
-           
               </Typography>
             </Box>
             <Divider sx={{ mb: 1, background: 'rgba(255,255,255,0.15)' }} />
@@ -187,6 +201,31 @@ function Navbar() {
                     </ListItem>
                   </Fade>
                 ))}
+                {/* Logout button in the drawer */}
+                <ListItem disablePadding sx={{ mt: 2 }}>
+                  <ListItemButton
+                    onClick={() => {
+                      handleDrawerToggle();
+                      handleLogout();
+                    }}
+                    sx={{
+                      color: '#fff',
+                      fontWeight: 700,
+                      borderRadius: 1.5,
+                      mx: 1,
+                      my: 0.5,
+                      px: 2,
+                      py: 1,
+                      background: 'rgba(255,0,0,0.15)',
+                      '&:hover': {
+                        background: 'rgba(255,0,0,0.25)',
+                        color: '#fff',
+                      },
+                    }}
+                  >
+                    <ListItemText primary="Logout" />
+                  </ListItemButton>
+                </ListItem>
               </List>
             </Box>
           </Box>

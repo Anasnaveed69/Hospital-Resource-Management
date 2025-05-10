@@ -19,6 +19,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import Slider from 'react-slick';
+import { useNavigate } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import posterImg from '../assets/Poster.jpg';
@@ -71,6 +72,12 @@ const sliderSettings = {
 };
 
 export default function Home() {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    navigate("/login", { replace: false });
+  };
+
   return (
     <Box sx={{
       fontFamily: "'Inter', 'Roboto', sans-serif",
@@ -78,16 +85,41 @@ export default function Home() {
       display: 'flex',
       flexDirection: 'column',
       background: '#F4F7FA',
+      position: 'relative',
     }}>
+      {/* Logout Button */}
+      <Box sx={{ position: 'absolute', top: 24, right: 24, zIndex: 10 }}>
+        <Button
+          variant="outlined"
+          color="error"
+          onClick={handleLogout}
+          sx={{
+            fontWeight: 700,
+            borderRadius: 2,
+            px: 3,
+            py: 1,
+            borderColor: '#0052CC',
+            color: '#0052CC',
+            background: '#fff',
+            boxShadow: '0 2px 8px rgba(0,82,204,0.04)',
+            '&:hover': {
+              background: '#F4F7FA',
+              borderColor: '#00B8D9',
+              color: '#00B8D9',
+            },
+            transition: 'all 0.2s',
+          }}
+        >
+          Logout
+        </Button>
+      </Box>
+
       {/* Hero Section */}
-
-
       <Box
         sx={{
-        
-        flexGrow: 1,
+          flexGrow: 1,
           minHeight: { xs: '65vh', md: '85vh' },
-       backgroundImage: `linear-gradient(120deg, rgba(0, 82, 204, 0.63) 60%, rgba(0, 217, 76, 0.7) 100%), url(${posterImg})`,
+          backgroundImage: `linear-gradient(120deg, rgba(0, 82, 204, 0.63) 60%, rgba(0, 217, 76, 0.7) 100%), url(${posterImg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
