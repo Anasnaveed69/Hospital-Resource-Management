@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Container } from '@mui/material';
+import { Container, ThemeProvider, createTheme } from '@mui/material';
 import Navbar from './components/Navbar';
+import ProtectedRoute from './components/ProtectedRoute';
+import Login from './pages/Login';
 import Home from './pages/Home';
 import RegisterPatient from './pages/RegisterPatient';
 import Patients from './pages/Patients';
@@ -41,51 +43,439 @@ import Payroll from './pages/Payroll';
 import TotalSalariesPaid from './pages/TotalSalariesPaid';
 
 function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const theme = createTheme({
+    palette: {
+      mode: isDarkMode ? 'dark' : 'light',
+      primary: {
+        main: '#1976D2',
+      },
+      secondary: {
+        main: '#43a047',
+      },
+    },
+  });
+
+  const toggleTheme = () => {
+    setIsDarkMode((prev) => !prev);
+  };
+
   return (
-    <Router>
-      <Navbar />
-      <Container sx={{ mt: 4 }}>
+    <ThemeProvider theme={theme}>
+      <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register-patient" element={<RegisterPatient />} />
-          <Route path="/patients" element={<Patients />} />
-          <Route path="/patient-history" element={<PatientHistory />} />
-          <Route path="/assign-bed" element={<AssignBed />} />
-          <Route path="/schedule-appointment" element={<ScheduleAppointment />} />
-          <Route path="/bills" element={<Bills />} />
-          <Route path="/rooms" element={<Rooms />} />
-          <Route path="/beds" element={<Beds />} />
-          <Route path="/bed-occupancy" element={<BedOccupancy />} />
-          <Route path="/equipment" element={<Equipment />} />
-          <Route path="/track-equipment" element={<TrackEquipment />} />
-          <Route path="/staff" element={<Staff />} />
-          <Route path="/staff-availability" element={<StaffAvailability />} />
-          <Route path="/staff-performance" element={<StaffPerformance />} />
-          <Route path="/appointments" element={<Appointments />} />
-          <Route path="/assign-doctor" element={<AssignDoctor />} />
-          <Route path="/patient-assignments" element={<PatientAssignments />} />
-          <Route path="/schedules" element={<Schedules />} />
-          <Route path="/alerts" element={<Alerts />} />
-          <Route path="/monthly-revenue" element={<MonthlyRevenue />} />
-          <Route path="/pharmacy" element={<Pharmacy />} />
-          <Route path="/low-stock" element={<LowStock />} />
-          <Route path="/expired-medicines" element={<ExpiredMedicines />} />
-          <Route path="/low-stock-medicines" element={<LowStockMedicines />} />
-          <Route path="/lab-tests" element={<LabTests />} />
-          <Route path="/feedback" element={<Feedback />} />
-          <Route path="/ambulance-services" element={<AmbulanceServices />} />
-          <Route path="/registrations" element={<Registrations />} />
-          <Route path="/security" element={<Security />} />
-          <Route path="/security-incidents" element={<SecurityIncidents />} />
-          <Route path="/salary-structures" element={<SalaryStructures />} />
-          <Route path="/staff-salaries" element={<StaffSalaries />} />
-          <Route path="/staff-salary-report" element={<StaffSalaryReport />} />
-          <Route path="/top-paid-staff" element={<TopPaidStaff />} />
-          <Route path="/payroll" element={<Payroll />} />
-          <Route path="/total-salaries-paid" element={<TotalSalariesPaid />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <Home />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/register-patient"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <RegisterPatient />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/patients"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <Patients />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/patient-history"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <PatientHistory />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/assign-bed"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <AssignBed />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/schedule-appointment"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <ScheduleAppointment />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bills"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <Bills />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/rooms"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <Rooms />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/beds"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <Beds />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bed-occupancy"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <BedOccupancy />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/equipment"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <Equipment />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/track-equipment"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <TrackEquipment />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/staff"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <Staff />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/staff-availability"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <StaffAvailability />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/staff-performance"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <StaffPerformance />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/appointments"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <Appointments />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/assign-doctor"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <AssignDoctor />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/patient-assignments"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <PatientAssignments />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/schedules"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <Schedules />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/alerts"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <Alerts />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/monthly-revenue"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <MonthlyRevenue />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/pharmacy"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <Pharmacy />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/low-stock"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <LowStock />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/expired-medicines"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <ExpiredMedicines />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/low-stock-medicines"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <LowStockMedicines />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/lab-tests"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <LabTests />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/feedback"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <Feedback />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ambulance-services"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <AmbulanceServices />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/registrations"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <Registrations />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/security"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <Security />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/security-incidents"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <SecurityIncidents />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/salary-structures"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <SalaryStructures />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/staff-salaries"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <StaffSalaries />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/staff-salary-report"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <StaffSalaryReport />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/top-paid-staff"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <TopPaidStaff />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/payroll"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <Payroll />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/total-salaries-paid"
+            element={
+              <ProtectedRoute>
+                <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+                <Container sx={{ mt: 4 }}>
+                  <TotalSalariesPaid />
+                </Container>
+              </ProtectedRoute>
+            }
+          />
         </Routes>
-      </Container>
-    </Router>
+      </Router>
+    </ThemeProvider>
   );
 }
 
