@@ -258,6 +258,8 @@ class Hospital {
             alert: result.recordsets[0]?.[0]
         };
     }
+
+    
     // Billing
     static async getAllBills() {
         const pool = await poolPromise;
