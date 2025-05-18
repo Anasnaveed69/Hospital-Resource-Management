@@ -13,8 +13,8 @@ function LabTests() {
 
   return (
     <div>
-     
-      <GenericTable fetchData={getLabTests} columns={columns} title="Lab Tests" />
+       <Typography variant="h5" sx={{ mb: 2,fontWeight: 'bold',color:'blue' }}>Lab Tests</Typography>
+      <GenericTable fetchData={getLabTests} columns={columns} />
     </div>
   );
 }

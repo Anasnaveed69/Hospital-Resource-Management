@@ -59,13 +59,14 @@ class Hospital {
         }
       }
     // Room
-    static async getAllRooms() {
+       static async getAllRooms() {
         const pool = await poolPromise;
         if (!pool) throw new Error('Database pool is not initialized');
 
         const result = await pool.request().query('SELECT * FROM Room');
         return result.recordset;
     }
+
 
     // Beds
     static async getAllBeds() {

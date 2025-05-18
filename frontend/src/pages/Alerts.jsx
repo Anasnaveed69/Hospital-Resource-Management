@@ -74,10 +74,11 @@ function Alerts() {
         >
         
         </Typography>
+             <Typography variant="h5" sx={{ mb: 2,fontWeight: 'bold',color:'blue' }}>Alert List</Typography>
         <GenericTable
           fetchData={getAlerts}
           columns={columns}
-          title="Alert Lists"
+        
           refreshKey={refreshKey}
           sx={{
             '& .MuiTableCell-root': { color: '#263238' },

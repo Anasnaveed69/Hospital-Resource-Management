@@ -13,7 +13,7 @@ function Security() {
   return (
     <div>
       <Typography variant="h5" sx={{ mb: 2 }}>Security</Typography>
-      <GenericTable fetchData={getSecurity} columns={columns} title="Security" />
+      <GenericTable fetchData={getSecurity} columns={columns}  />
     </div>
   );
 }

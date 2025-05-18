@@ -57,10 +57,11 @@ function Equipment() {
         >
          
         </Typography>
+          <Typography variant="h5" sx={{ mb: 2,fontWeight: 'bold',color:'blue' }}>Equipment List</Typography>
         <GenericTable
           fetchData={getEquipment}
           columns={columns}
-          title="Equipment"
+        
           refreshKey={refreshKey}
           sx={{
             '& .MuiTableCell-root': { color: '#263238' },

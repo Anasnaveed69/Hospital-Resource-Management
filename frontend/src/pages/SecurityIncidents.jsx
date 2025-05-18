@@ -56,13 +56,13 @@ function SecurityIncidents() {
 
   return (
     <div style={{ padding: '20px' }}>
-      <Typography variant="h5" sx={{ mb: 4 ,fontWeight: 'bold'}}>Security Incidents</Typography>
+      <Typography variant="h5" sx={{ mb: 4 ,fontWeight: 'bold',color:'blue'}}>Security Report</Typography>
       <SecurityIncidentForm onIncidentLogged={handleIncidentLogged} />
-     
+       <Typography variant="h5" sx={{ mb: 2,fontWeight: 'bold',color:'blue',marginTop:5 }}>Incident List</Typography>
       <GenericTable
         fetchData={getSecurity}
         columns={columns}
-        title="Incidents Lists"
+        
         refreshKey={refreshKey}
       />
     </div>

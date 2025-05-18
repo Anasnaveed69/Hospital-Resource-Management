@@ -10,11 +10,14 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@mui/icons-material": "^7.1.0",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
     "mssql": "^11.0.1",
-    "mysql2": "^3.14.0"
+    "mysql2": "^3.14.0",
+    "react-countup": "^6.5.3",
+    "react-visibility-sensor": "^5.1.1"
   }
 }

@@ -14,8 +14,8 @@ function Schedules() {
 
   return (
     <div>
-      
-      <GenericTable fetchData={getSchedules} columns={columns} title="Schedules" />
+        <Typography variant="h5" sx={{ mb: 2,fontWeight: 'bold',color:'blue' }}>Schedules </Typography>
+      <GenericTable fetchData={getSchedules} columns={columns}  />
     </div>
   );
 }

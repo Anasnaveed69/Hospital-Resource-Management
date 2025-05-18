@@ -252,10 +252,11 @@ function AssignDoctorForm() {
           }}
         >
         </Typography>
+             <Typography variant="h5" sx={{ mb: 2,fontWeight: 'bold',color:'blue' }}>Appointment List</Typography>
         <GenericTable
           fetchData={getAppointments}
           columns={appointmentColumns}
-          title="Appointments List"
+        
           refreshKey={refreshKey}
           sx={{
             '& .MuiTableCell-root': { color: '#263238' },

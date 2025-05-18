@@ -6,7 +6,7 @@ import PatientList from '../components/PatientList';
 function Patients() {
   return (
     <div>
-      <Typography variant="h5" sx={{ mb: 2,fontWeight: 'bold' }}>Patient List</Typography>
+      <Typography variant="h5" sx={{ mb: 2,fontWeight: 'bold',color:'blue' }}>Patient List</Typography>
       <PatientList />
     </div>
   );

@@ -6,7 +6,7 @@ import PatientForm from '../components/PatientForm';
 function RegisterPatient() {
   return (
     <div>
-      <Typography variant="h5" sx={{ mb: 2,fontWeight: 'bold' }}>Register New Patient</Typography>
+      <Typography variant="h5" sx={{ mb: 2,fontWeight: 'bold' ,color:'blue'}}>Register New Patient</Typography>
       <PatientForm />
     </div>
   );
