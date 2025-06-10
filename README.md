@@ -29,7 +29,7 @@ The **Hospital Resource Management System (HRMS)** is a database-driven applicat
 
 ### 6. **Role-Based Access Control**
 - Restrict access to sensitive data based on user roles.
-- Define access permissions for administrators, doctors, nurses, and other staff.
+- Define access permissions for administrators.
 
 ### 7. **Web-Based Interface**
 - Provide a user-friendly interface accessible via web browsers.
