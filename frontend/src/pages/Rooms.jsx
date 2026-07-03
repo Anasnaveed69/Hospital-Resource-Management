@@ -24,7 +24,8 @@ function Rooms() {
 
   return (
     <div>
-      <GenericTable fetchData={fetchRooms} columns={columns} title="Rooms" />
+        <Typography variant="h5" sx={{ mb: 2,fontWeight: 'bold',color:'blue' }}>RoomsList</Typography>
+      <GenericTable fetchData={fetchRooms} columns={columns}  />
     </div>
   );
 }
