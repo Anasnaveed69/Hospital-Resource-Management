@@ -43,7 +43,7 @@ import SecurityIcon from '@mui/icons-material/Security';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import logo from '../assets/Medica Centre.png';
+import logo from '../assets/Medica centre.png';
 import ErrorBoundary from './ErrorBoundary'; // You'll need to create this component
 import { styled } from '@mui/material/styles';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
