@@ -13,15 +13,24 @@ class Hospital {
     static async registerPatient(patientId, name, admissionDate, dischargeDate, diagnosis) {
         const pool = await poolPromise;
         if (!pool) throw new Error('Database pool is not initialized');
+
+        let finalPatientId = patientId;
+        if (!finalPatientId || isNaN(finalPatientId) || finalPatientId <= 0) {
+            const idResult = await pool.request().query('SELECT ISNULL(MAX(PatientID), 0) + 1 as nextId FROM Patients');
+            finalPatientId = idResult.recordset[0].nextId;
+        }
     
-        const result = await pool.request()
-            .input('PatientID', sql.Int, patientId)
+        await pool.request()
+            .input('PatientID', sql.Int, finalPatientId)
             .input('Name', sql.VarChar(255), name)
             .input('AdmissionDate', sql.Date, admissionDate)
             .input('DischargeDate', sql.Date, dischargeDate || null)
             .input('Diagnosis', sql.VarChar(255), diagnosis)
             .execute('RegisterPatient');
-        return { message: `Patient ${patientId} registered successfully` };
+        return { 
+            message: `Patient registered successfully with ID ${finalPatientId}`,
+            patientId: finalPatientId 
+        };
     }
 
     static async dischargePatient(patientId, dischargeDate) {

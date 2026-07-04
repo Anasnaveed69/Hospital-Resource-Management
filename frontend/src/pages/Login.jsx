@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import posterImg from "../assets/Home.jpg";
+import posterImg from "../assets/Home.png";
 
 // --- Animated Blobs for Futuristic Background ---
 function AnimatedBlobs() {

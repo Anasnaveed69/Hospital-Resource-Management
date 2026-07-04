@@ -27,18 +27,12 @@ function PatientForm() {
 
   const formik = useFormik({
     initialValues: {
-      patientId: '',
       name: '',
       admissionDate: '',
       dischargeDate: '',
       diagnosis: '',
     },
     validationSchema: Yup.object({
-      patientId: Yup.number()
-        .typeError('Patient ID must be a number')
-        .required('Patient ID is required')
-        .positive('Patient ID must be positive')
-        .integer('Patient ID must be an integer'),
       name: Yup.string()
         .required('Name is required')
         .max(100, 'Name is too long'),
@@ -57,7 +51,6 @@ function PatientForm() {
       setLoading(true);
       try {
         const payload = {
-          patientId: Number(values.patientId),
           name: values.name.trim(),
           admissionDate: values.admissionDate,
           dischargeDate: values.dischargeDate || null,
@@ -156,22 +149,7 @@ function PatientForm() {
               </Box>
             </Fade>
 
-            <Slide direction="right" in timeout={500} mountOnEnter unmountOnExit>
-              <TextField
-                fullWidth
-                label="Patient ID"
-                name="patientId"
-                type="number"
-                margin="normal"
-                variant="outlined"
-                {...formik.getFieldProps('patientId')}
-                error={formik.touched.patientId && Boolean(formik.errors.patientId)}
-                helperText={formik.touched.patientId && formik.errors.patientId}
-                InputProps={{ sx: { borderRadius: 2 } }}
-                inputProps={{ 'aria-required': true, min: 1 }}
-                autoComplete="off"
-              />
-            </Slide>
+            {/* Patient ID is auto-assigned dynamically by the database */}
 
             <Slide direction="left" in timeout={600} mountOnEnter unmountOnExit>
               <TextField
