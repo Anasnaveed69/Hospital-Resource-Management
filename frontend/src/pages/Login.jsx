@@ -238,13 +238,10 @@ export default function Login() {
                 />
               </FormControl>
 
-              <Box sx={{ mb: 1, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <Box sx={{ mb: 1 }}>
                 <InputLabel htmlFor="password" shrink sx={{ color: "#1976D2", fontWeight: 600 }}>
                   Password
                 </InputLabel>
-                <Link href="#" underline="hover" sx={{ fontSize: "0.8rem", color: "#1976D2" }}>
-                  Forgot password?
-                </Link>
               </Box>
               <TextField
                 id="password"
