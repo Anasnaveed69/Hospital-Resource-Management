@@ -1,6 +1,6 @@
-﻿-- Patients Table
+-- Patients Table
 
-use HOSPITAL;
+-- use HOSPITAL; -- Commented out for Azure SQL compatibility
 CREATE TABLE Patients (
 	PatientID INT NOT NULL,
     Name VARCHAR(255) NOT NULL,
