@@ -64,8 +64,7 @@ function AnimatedBlobs() {
 }
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [passcode, setPasscode] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -83,14 +82,13 @@ export default function Login() {
     setError("");
 
     setTimeout(() => {
-      const validUsername = "admin";
-      const validPassword = "hospital123";
+      const validPasscode = "hospital123";
 
-      if (username === validUsername && password === validPassword) {
+      if (passcode === validPasscode) {
         localStorage.setItem("isAuthenticated", "true");
         navigate("/home", { replace: true });
       } else {
-        setError("Invalid username or password");
+        setError("Invalid security passcode");
       }
       setIsLoading(false);
     }, 900);
@@ -174,7 +172,7 @@ export default function Login() {
               MediCare
             </Typography>
             <Typography variant="body2" sx={{ color: "#e3f2fd", mt: 0.5 }}>
-              Sign in to access your dashboard
+              Enter passcode to access dashboard
             </Typography>
           </Box>
 
@@ -190,8 +188,25 @@ export default function Login() {
                 mb: 2,
               }}
             >
-              Management Login
+              Administrative Access
             </Typography>
+
+            {/* Business Specific Private Portal Notice */}
+            <Alert
+              severity="warning"
+              sx={{
+                mb: 3,
+                bgcolor: "rgba(255, 152, 0, 0.08)",
+                color: "#b26a00",
+                border: "1px solid rgba(255, 152, 0, 0.25)",
+                "& .MuiAlert-icon": { color: "#b26a00" },
+                fontSize: "0.85rem",
+                lineHeight: 1.4,
+                textAlign: "left",
+              }}
+            >
+              <strong>Private System:</strong> This is a business-specific resource management portal. Public registration is not available. Access is restricted to pre-authorized administrators.
+            </Alert>
 
             {error && (
               <Alert
@@ -210,20 +225,40 @@ export default function Login() {
 
             <form onSubmit={handleLogin} autoComplete="off">
               <FormControl fullWidth sx={{ mb: 2 }}>
-                <InputLabel htmlFor="username" shrink sx={{ color: "#1976D2", fontWeight: 600 }}>
-                  Username
+                <InputLabel htmlFor="passcode" shrink sx={{ color: "#1976D2", fontWeight: 600 }}>
+                  Security Access Passcode
                 </InputLabel>
                 <TextField
-                  id="username"
-                  placeholder="Enter your username"
+                  id="passcode"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter access passcode"
                   variant="outlined"
                   fullWidth
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={passcode}
+                  onChange={(e) => setPasscode(e.target.value)}
                   required
                   margin="normal"
                   autoFocus
-                  autoComplete="username"
+                  autoComplete="current-password"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label={showPassword ? "Hide passcode" : "Show passcode"}
+                          onClick={() => setShowPassword((show) => !show)}
+                          edge="end"
+                          size="small"
+                          sx={{
+                            color: "#1976D2",
+                            transition: "color .2s",
+                            "&:hover": { color: "#00d2ff" },
+                          }}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   sx={{
                     bgcolor: "rgba(255,255,255,0.85)",
                     borderRadius: 2,
@@ -238,61 +273,13 @@ export default function Login() {
                 />
               </FormControl>
 
-              <Box sx={{ mb: 1 }}>
-                <InputLabel htmlFor="password" shrink sx={{ color: "#1976D2", fontWeight: 600 }}>
-                  Password
-                </InputLabel>
-              </Box>
-              <TextField
-                id="password"
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-                variant="outlined"
-                fullWidth
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                margin="normal"
-                autoComplete="current-password"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label={showPassword ? "Hide password" : "Show password"}
-                        onClick={() => setShowPassword((show) => !show)}
-                        edge="end"
-                        size="small"
-                        sx={{
-                          color: "#1976D2",
-                          transition: "color .2s",
-                          "&:hover": { color: "#00d2ff" },
-                        }}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                sx={{
-                  bgcolor: "rgba(255,255,255,0.85)",
-                  borderRadius: 2,
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#e0e0e0" },
-                    "&:hover fieldset": { borderColor: "#00d2ff" },
-                    "&.Mui-focused fieldset": { borderColor: "#1976D2" },
-                  },
-                  transition: "box-shadow .2s",
-                  boxShadow: "0 2px 8px 0 rgba(67,233,123,0.07)",
-                }}
-              />
-
               <Button
                 type="submit"
                 variant="contained"
                 fullWidth
                 disabled={isLoading}
                 sx={{
-                  mt: 4,
+                  mt: 3,
                   mb: 2,
                   py: 1.5,
                   fontWeight: 700,
@@ -318,7 +305,7 @@ export default function Login() {
                 }}
                 endIcon={isLoading && <CircularProgress size={22} color="inherit" />}
               >
-                {isLoading ? "Signing in..." : "Sign in"}
+                {isLoading ? "Verifying..." : "Verify Passcode"}
               </Button>
             </form>
             <Typography
