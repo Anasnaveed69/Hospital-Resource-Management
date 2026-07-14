@@ -17,8 +17,6 @@ import {
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import posterImg from "../assets/hospital_lobby_bg.png";
-
 
 // --- Animated Blobs for Futuristic Background ---
 function AnimatedBlobs() {
@@ -27,36 +25,36 @@ function AnimatedBlobs() {
       <Box
         sx={{
           position: "absolute",
-          width: 340,
-          height: 340,
-          top: "-80px",
-          left: "-120px",
+          width: 480,
+          height: 480,
+          top: "-120px",
+          left: "-160px",
           borderRadius: "50%",
           background: "linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%)",
           opacity: 0.35,
-          filter: "blur(48px)",
+          filter: "blur(80px)",
           animation: "blobMove1 12s ease-in-out infinite alternate",
           "@keyframes blobMove1": {
             "0%": { transform: "translate(0, 0) scale(1)" },
-            "100%": { transform: "translate(40px, 60px) scale(1.15)" },
+            "100%": { transform: "translate(60px, 80px) scale(1.15)" },
           },
         }}
       />
       <Box
         sx={{
           position: "absolute",
-          width: 260,
-          height: 260,
-          bottom: "-60px",
-          right: "-80px",
+          width: 380,
+          height: 380,
+          bottom: "-100px",
+          right: "-120px",
           borderRadius: "50%",
           background: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
           opacity: 0.32,
-          filter: "blur(36px)",
+          filter: "blur(60px)",
           animation: "blobMove2 14s ease-in-out infinite alternate",
           "@keyframes blobMove2": {
             "0%": { transform: "translate(0, 0) scale(1)" },
-            "100%": { transform: "translate(-30px, -40px) scale(1.12)" },
+            "100%": { transform: "translate(-50px, -60px) scale(1.12)" },
           },
         }}
       />
@@ -103,10 +101,7 @@ export default function Login() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundImage: `url(${posterImg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+        background: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #e8eaf6 100%)",
         position: "relative",
         overflow: "hidden",
       }}
