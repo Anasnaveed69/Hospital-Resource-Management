@@ -62,6 +62,125 @@ function AnimatedBlobs() {
   );
 }
 
+// --- Floating Medical Crosses ---
+function FloatingCrosses() {
+  const crosses = [
+    { top: "15%", left: "8%", size: 28, delay: "0s", duration: "18s" },
+    { top: "25%", right: "12%", size: 36, delay: "2s", duration: "22s" },
+    { bottom: "18%", left: "15%", size: 24, delay: "4s", duration: "16s" },
+    { bottom: "28%", right: "10%", size: 32, delay: "1s", duration: "20s" },
+    { top: "55%", left: "85%", size: 30, delay: "3s", duration: "19s" },
+  ];
+
+  return (
+    <Box sx={{ position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none" }}>
+      {crosses.map((c, idx) => (
+        <Box
+          key={idx}
+          sx={{
+            position: "absolute",
+            top: c.top,
+            left: c.left,
+            right: c.right,
+            width: c.size,
+            height: c.size,
+            opacity: 0.08,
+            color: "#1976D2",
+            animation: `floatCross ${c.duration} ease-in-out infinite alternate`,
+            animationDelay: c.delay,
+            "@keyframes floatCross": {
+              "0%": {
+                transform: "translateY(0) rotate(0deg) scale(1)",
+                opacity: 0.05,
+              },
+              "50%": {
+                opacity: 0.12,
+              },
+              "100%": {
+                transform: "translateY(-40px) rotate(180deg) scale(1.1)",
+                opacity: 0.05,
+              },
+            },
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" width="100%" height="100%">
+            <path d="M19 10.5h-5.5V5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v5.5H5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h5.5V19c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-5.5H19c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5z" />
+          </svg>
+        </Box>
+      ))}
+    </Box>
+  );
+}
+
+// --- Glowing Hospital ECG (Heartbeat) Wave ---
+function ECGBackground() {
+  return (
+    <Box
+      sx={{
+        position: "absolute",
+        left: 0,
+        right: 0,
+        top: "65%",
+        height: 180,
+        zIndex: 1,
+        pointerEvents: "none",
+        opacity: 0.18,
+        overflow: "hidden",
+      }}
+    >
+      <svg
+        width="100%"
+        height="100%"
+        viewBox="0 0 1000 100"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <linearGradient id="ecg-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#3a7bd5" stopOpacity={0} />
+            <stop offset="15%" stopColor="#00d2ff" stopOpacity={1} />
+            <stop offset="50%" stopColor="#1976D2" stopOpacity={1} />
+            <stop offset="85%" stopColor="#00d2ff" stopOpacity={1} />
+            <stop offset="100%" stopColor="#3a7bd5" stopOpacity={0} />
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
+            <feMerge>
+              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <path
+          d="M 0 50 L 150 50 Q 160 42 170 50 L 190 50 L 200 55 L 210 12 L 225 88 L 235 50 Q 250 38 265 50 L 650 50 Q 660 42 670 50 L 690 50 L 700 55 L 710 12 L 725 88 L 735 50 Q 750 38 765 50 L 1000 50"
+          fill="none"
+          stroke="url(#ecg-gradient)"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          filter="url(#glow)"
+          style={{
+            strokeDasharray: "2000",
+            strokeDashoffset: "2000",
+            animation: "ecgFlow 12s linear infinite",
+          }}
+        />
+      </svg>
+      <style>
+        {`
+          @keyframes ecgFlow {
+            0% {
+              stroke-dashoffset: 2000;
+            }
+            100% {
+              stroke-dashoffset: 0;
+            }
+          }
+        `}
+      </style>
+    </Box>
+  );
+}
+
 export default function Login() {
   const [passcode, setPasscode] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -104,10 +223,23 @@ export default function Login() {
         background: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #e8eaf6 100%)",
         position: "relative",
         overflow: "hidden",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          inset: 0,
+          backgroundImage: "radial-gradient(rgba(58, 123, 213, 0.08) 1.5px, transparent 1.5px)",
+          backgroundSize: "24px 24px",
+          pointerEvents: "none",
+          zIndex: 1,
+        }
       }}
     >
       {/* Futuristic Animated Blobs */}
       <AnimatedBlobs />
+
+      {/* Hospital/Medical Animations */}
+      <FloatingCrosses />
+      <ECGBackground />
 
       {/* Glassmorphism Login Card */}
       <Fade in={fadeIn} timeout={1200}>
