@@ -17,7 +17,8 @@ import {
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import posterImg from "../assets/Home.png";
+import posterImg from "../assets/hospital_lobby_bg.png";
+
 
 // --- Animated Blobs for Futuristic Background ---
 function AnimatedBlobs() {
@@ -314,8 +315,8 @@ export default function Login() {
               sx={{
                 display: "block",
                 mt: 3,
-                color: "#9e9e9e",
-                fontWeight: 400,
+                color: "#1e293b",
+                fontWeight: 600,
                 zIndex: 2,
               }}
             >
